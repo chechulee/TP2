@@ -43,7 +43,7 @@ public class Solver {
 
 	public Double calcularPeso(Integer arista1, Integer arista2){
 		Double peso, costoXKM,costoDistintaProv,costoMasLimiteKM, limiteKM, KM;
-		costoXKM = 1500.0;
+		costoXKM = 750.0;
 		costoMasLimiteKM = 5000.0;
 		costoDistintaProv = 10000.0;
 		limiteKM = 200.0;
