@@ -25,17 +25,20 @@ public class Solver {
 	}
 	private void generarTodasLasAristasYpesosDelGrafo(){
 		PesoArista pesoArista;
-	//	double peso;	
+	    Double peso;	
 		for (int i = 0; i < conexiones.size(); i++){
 			for(int j = i+1; j < conexiones.size(); j++){
 				if(j!=i) {
 					grafo.agregarArista(i,j);
-					pesoArista = new PesoArista(i,j,(calcularDistancia(i,j)));
+					//pesoArista = new PesoArista(i,j,(calcularDistancia(i,j)));
+					peso = calcularPeso(i,j);
+					System.out.println(obtenerLocalidad(i)+"  " + obtenerLocalidad(j) + "  " + "$ " + peso);
+					pesoArista = new PesoArista(i,j,peso);
 					aristasConPesos.add(pesoArista);
 					cantAristas++;
 				}
 			}
-	}
+	   }
 	}	
 
 	public Double calcularPeso(Integer arista1, Integer arista2){
@@ -48,7 +51,7 @@ public class Solver {
 		peso =  KM * costoXKM;
 		if(obtenerLocalidad(arista1) != obtenerLocalidad(arista2)) peso = peso + costoDistintaProv;
 		if(KM > limiteKM) peso = peso + costoMasLimiteKM;
-		return peso;
+				return peso;
 		
 	}
 	public double calcularDistancia(Integer arista1 ,Integer arista2){
@@ -80,7 +83,6 @@ public class Solver {
 	double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)* Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)); 
 	double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
 	double distancia = radioTierra * va2;
-	System.out.println(distancia);
 	return distancia;
 	}
 }
