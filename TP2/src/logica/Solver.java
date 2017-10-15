@@ -30,7 +30,7 @@ public class Solver {
 			for(int j = i+1; j < conexiones.size(); j++){
 				if(j!=i) {
 					grafo.agregarArista(i,j);
-					pesoArista = new PesoArista(i,j,(calcularPeso(i,j)));
+					pesoArista = new PesoArista(i,j,(calcularDistancia(i,j)));
 					aristasConPesos.add(pesoArista);
 					cantAristas++;
 				}
@@ -38,14 +38,26 @@ public class Solver {
 	}
 	}	
 
-	
-	public double calcularPeso(Integer arista1 ,Integer arista2){
+	public Double calcularPeso(Integer arista1, Integer arista2){
+		Double peso, costoXKM,costoDistintaProv,costoMasLimiteKM, limiteKM, KM;
+		costoXKM = 1500.0;
+		costoMasLimiteKM = 5000.0;
+		costoDistintaProv = 10000.0;
+		limiteKM = 200.0;
+		KM = calcularDistancia(arista1,arista2);
+		peso =  KM * costoXKM;
+		if(obtenerLocalidad(arista1) != obtenerLocalidad(arista2)) peso = peso + costoDistintaProv;
+		if(KM > limiteKM) peso = peso + costoMasLimiteKM;
+		return peso;
+		
+	}
+	public double calcularDistancia(Integer arista1 ,Integer arista2){
 		Coordinate coordenada_i, coordenada_j;
-		double peso;
+		double distanciaKM;
 		Coordinate coordArista1 = obtenerCoordenada(arista1);
 		Coordinate coordArista2=obtenerCoordenada(arista2);
-	   peso = distanciaCoord(coordArista1.getLat(), coordArista1.getLon(), coordArista2.getLat(), coordArista2.getLon());	
-		return peso;
+	   distanciaKM = distanciaCoord(coordArista1.getLat(), coordArista1.getLon(), coordArista2.getLat(), coordArista2.getLon());	
+	   return distanciaKM;
 	}
 	public  Coordinate obtenerCoordenada(Integer vertice){
 		Coordinate coordenada = new Coordinate(conexiones.get(vertice).latitud, conexiones.get(vertice).longitud);
