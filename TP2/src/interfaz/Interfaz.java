@@ -97,8 +97,9 @@ public class Interfaz {
 		panel.add(mapa);
 		
 		mapa.setSize(new Dimension(402, 681));
-		
+		mapa.setDisplayPositionByLatLon( -38, -64, 4);		
 		table_1 = new JTable();
+		table_1.setEnabled(false);
 		table_1.setBorder(new LineBorder(Color.BLUE));
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -187,6 +188,7 @@ public class Interfaz {
 				nuevaConexion = new DatosLocalidad(prov,loc,hab,lat,lon);
 				conexiones.add(nuevaConexion);
 				
+				
 			}
 		});
 		btnAgregarLocalidad.setBounds(448, 271, 153, 32);
@@ -233,10 +235,10 @@ public class Interfaz {
 		frame.getContentPane().add(lblConexionesAgregadas);
 		
 		JButton btnConfigurar = new JButton("Configurar");
-		btnConfigurar.setBounds(799, 86, 89, 23);
+		btnConfigurar.setBounds(843, 78, 117, 32);
 		frame.getContentPane().add(btnConfigurar);
 		
-		mapa.setDisplayPositionByLatLon( -38, -64, 4);
+
 		
         
 		

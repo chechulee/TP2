@@ -6,9 +6,9 @@ public class Solver {
 	private ArrayList<DatosLocalidad> conexiones;
 	Grafo grafo;
 	
-	public Solver(ArrayList con){
-		int vertices = con.size();
-		this.conexiones = con;
+	public Solver(ArrayList c){
+		int vertices = c.size();
+		this.conexiones = c;
 		grafo = new Grafo(vertices);
 		
 	}
