@@ -1,11 +1,13 @@
 package logica;
 
+import java.util.ArrayList;
+
 public class AGM {
+	ArrayList pesoArista;
 	Grafo ArbolGM;
-	
-	
-	public AGM(Grafo grafo){
-		this.ArbolGM = grafo;
+	public AGM( ArrayList pesoArista){
+		this.pesoArista = pesoArista; 
+		
 	}
 	
 	public void kruskal(){

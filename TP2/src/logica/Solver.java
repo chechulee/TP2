@@ -5,29 +5,50 @@ import java.util.ArrayList;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 public class Solver {
-	private ArrayList<DatosLocalidad> conexiones;
+	public ArrayList<DatosLocalidad> conexiones;
+	public ArrayList<PesoArista>  aristasConPesos;
 	Grafo grafo;
 	AGM arbolGM;
+	int cantAristas;
 	
 	public Solver(ArrayList c){
 		this.conexiones = c;
 		grafo = new Grafo(c.size());
-		generarTodasLasAristasDelGrafo();
-		arbolGM = new AGM(grafo);
+		aristasConPesos = new ArrayList();
+		generarTodasLasAristasYpesosDelGrafo();
+		generarTodosLosPesos();
+		arbolGM = new AGM(aristasConPesos);
+	}
+	
+	private void generarTodosLosPesos(){
 		
 	}
-	
-	private void generarTodasLasAristasDelGrafo(){
+	private void generarTodasLasAristasYpesosDelGrafo(){
+		PesoArista pesoArista;
+	//	double peso;	
 		for (int i = 0; i < conexiones.size(); i++){
 			for(int j = i+1; j < conexiones.size(); j++){
-				grafo.agregarArista(i,j);
-				
+				if(j!=i) {
+					grafo.agregarArista(i,j);
+					pesoArista = new PesoArista(i,j,(calcularPeso(i,j)));
+					aristasConPesos.add(pesoArista);
+					cantAristas++;
+				}
 			}
-		}
 	}
+	}	
+
 	
-	public  Coordinate obtenerCoordenada(Integer pos){
-		Coordinate coordenada = new Coordinate(conexiones.get(pos).latitud, conexiones.get(pos).longitud);
+	public double calcularPeso(Integer arista1 ,Integer arista2){
+		Coordinate coordenada_i, coordenada_j;
+		double peso;
+		Coordinate coordArista1 = obtenerCoordenada(arista1);
+		Coordinate coordArista2=obtenerCoordenada(arista2);
+	   peso = distanciaCoord(coordArista1.getLat(), coordArista1.getLon(), coordArista2.getLat(), coordArista2.getLon());	
+		return peso;
+	}
+	public  Coordinate obtenerCoordenada(Integer vertice){
+		Coordinate coordenada = new Coordinate(conexiones.get(vertice).latitud, conexiones.get(vertice).longitud);
 		return coordenada;
 	}
 	
@@ -35,24 +56,19 @@ public class Solver {
 		String localidad = conexiones.get(pos).Localidad;
 		return localidad;
 	}
-	public double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {  
-        //double radioTierra = 3958.75;//en millas  
-        double radioTierra = 6371;//en kilómetros  
-        double dLat = Math.toRadians(lat2 - lat1);  
-        double dLng = Math.toRadians(lng2 - lng1);  
-        double sindLat = Math.sin(dLat / 2);  
-        double sindLng = Math.sin(dLng / 2);  
-        double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)  
-                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));  
-        double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));  
-        double distancia = radioTierra * va2;  
-   
-        return distancia;  
-    }  
-	
-  private Double calcularCosto(String loc1, String loc2){
-	  return 1.5;
-  }
 	
 	
+	private double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
+	//double radioTierra = 3958.75;//en millas  
+	double radioTierra = 6371;//en kilómetros  
+	double dLat = Math.toRadians(lat2 - lat1);
+	double dLng = Math.toRadians(lng2 - lng1); 
+	double sindLat = Math.sin(dLat / 2);
+	double sindLng = Math.sin(dLng / 2); 
+	double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)* Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)); 
+	double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
+	double distancia = radioTierra * va2;
+	System.out.println(distancia);
+	return distancia;
+	}
 }

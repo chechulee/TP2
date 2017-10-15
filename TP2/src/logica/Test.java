@@ -70,6 +70,9 @@ public class Test {
 	         }
 		}
 		dibujarArista(coordenadas);
+		System.out.println(solver.aristasConPesos.toString());
+		System.out.println(solver.cantAristas);
+		System.out.println("Cantiadad de Aristas con pesos: " + solver.aristasConPesos.size());
 	}
 	
 	public void agregarLocalidadMapa(Double latitud, Double longitud, String localidad){
