@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 
 import logica.DatosLocalidad;
 
@@ -186,6 +188,7 @@ public class Interfaz {
 		 
 				agregarLocalidadMapa(lat,lon,loc);
 				nuevaConexion = new DatosLocalidad(prov,loc,hab,lat,lon);
+				conexiones = new ArrayList<DatosLocalidad> ();
 				conexiones.add(nuevaConexion);
 				
 				
@@ -258,10 +261,13 @@ public class Interfaz {
 	public void agregarLocalidadMapa(Double latitud, Double longitud, String localidad){
 		Coordinate coordenada = new Coordinate(latitud,longitud);
 		MapMarker marcador = new MapMarkerDot(localidad, coordenada);
-		
 		mapa.addMapMarker(marcador);
 
     }
 	
+	public void dibujarArista(ArrayList<Coordinate> coordenadas){
+		MapPolygon polygon = new MapPolygonImpl(coordenadas);
+		mapa.addMapPolygon(polygon);
+	}
 	
 }

@@ -2,22 +2,39 @@ package logica;
 
 import java.util.ArrayList;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 public class Solver {
 	private ArrayList<DatosLocalidad> conexiones;
 	Grafo grafo;
+	AGM arbolGM;
 	
 	public Solver(ArrayList c){
-		int vertices = c.size();
 		this.conexiones = c;
-		grafo = new Grafo(vertices);
+		grafo = new Grafo(c.size());
+		generarTodasLasAristasDelGrafo();
+		arbolGM = new AGM(grafo);
 		
 	}
 	
-	private void generarAristas(){
-		
+	private void generarTodasLasAristasDelGrafo(){
+		for (int i = 0; i < conexiones.size(); i++){
+			for(int j = i+1; j < conexiones.size(); j++){
+				grafo.agregarArista(i,j);
+				
+			}
+		}
 	}
 	
+	public  Coordinate obtenerCoordenada(Integer pos){
+		Coordinate coordenada = new Coordinate(conexiones.get(pos).latitud, conexiones.get(pos).longitud);
+		return coordenada;
+	}
 	
+	public String obtenerLocalidad(int pos){
+		String localidad = conexiones.get(pos).Localidad;
+		return localidad;
+	}
 	public double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {  
         //double radioTierra = 3958.75;//en millas  
         double radioTierra = 6371;//en kilómetros  

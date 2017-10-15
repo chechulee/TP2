@@ -54,22 +54,32 @@ public class Test {
 		frame.setContentPane(miMapa);
 		Prueba prueba = new Prueba();
 		DatosLocalidad d ;
-		//ArrayList<Coordinate> coordenadas = new ArrayList<Coordinate>();
+		ArrayList<Coordinate> coordenadas = new ArrayList<Coordinate>();
+		
+
 		for (int i = 0 ; i < prueba.conexiones.size(); i++){
 			d = (DatosLocalidad) prueba.conexiones.get(i);
-			//coordenadas.add(new Coordinate(d.getLat(), d.getLon()));
 			agregarLocalidadMapa(d.getLat(),d.getLon(), d.getLocalidad());
 		}
-	
-		//	MapPolygon polygon = new MapPolygonImpl(coordenadas);
-		//miMapa.addMapPolygon(polygon);
-
+		
+		Solver solver = new Solver(prueba.conexiones);
+		for(Integer i = 0; i <  prueba.conexiones.size() ; i++){
+	         for (Integer element : solver.grafo.vecinos(i)){
+	        	 coordenadas.add(solver.obtenerCoordenada(i));
+	         coordenadas.add(solver.obtenerCoordenada(element));
+	         }
+		}
+		dibujarArista(coordenadas);
 	}
+	
 	public void agregarLocalidadMapa(Double latitud, Double longitud, String localidad){
 		Coordinate coordenada = new Coordinate(latitud,longitud);
 		MapMarker marcador = new MapMarkerDot(localidad, coordenada);
-		
 		miMapa.addMapMarker(marcador);
-
     }
+	
+	public void dibujarArista(ArrayList<Coordinate> coordenadas){
+		MapPolygon polygon = new MapPolygonImpl(coordenadas);
+		miMapa.addMapPolygon(polygon);
+	}
 }
