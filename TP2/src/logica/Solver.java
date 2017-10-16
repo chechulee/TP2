@@ -16,13 +16,15 @@ public class Solver {
 		grafo = new Grafo(c.size());
 		aristasConPesos = new ArrayList();
 		generarTodasLasAristasYpesosDelGrafo();
-		generarTodosLosPesos();
+		aristasConPesos.sort(null);
 		arbolGM = new AGM(aristasConPesos);
+		// para mostrar que ordena los pesos
+		for(int i = 0; i < aristasConPesos.size(); i++){;
+		System.out.println(aristasConPesos.get(i).peso);
+		}
 	}
 	
-	private void generarTodosLosPesos(){
-		
-	}
+
 	private void generarTodasLasAristasYpesosDelGrafo(){
 		PesoArista pesoArista;
 	    Double peso;	
@@ -32,14 +34,14 @@ public class Solver {
 					grafo.agregarArista(i,j);
 					//pesoArista = new PesoArista(i,j,(calcularDistancia(i,j)));
 					peso = calcularPeso(i,j);
-					System.out.println(obtenerLocalidad(i)+"  " + obtenerLocalidad(j) + "  " + "$ " + peso);
+					//System.out.println(obtenerLocalidad(i)+"  " + obtenerLocalidad(j) + "  " + "$ " + peso);
 					pesoArista = new PesoArista(i,j,peso);
 					aristasConPesos.add(pesoArista);
 					cantAristas++;
 				}
 			}
 	   }
-	}	
+	}
 
 	public Double calcularPeso(Integer arista1, Integer arista2){
 		Double peso, costoXKM,costoDistintaProv,costoMasLimiteKM, limiteKM, KM;
