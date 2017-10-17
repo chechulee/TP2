@@ -2,8 +2,8 @@ package logica;
 
 public class PesoArista implements Comparable<PesoArista>{
 
-		Tupla<Integer, Integer> aristas;
-		Double peso;
+		public Tupla<Integer, Integer> aristas;
+		public Double peso;
 
 		public PesoArista (int x, int y, Double p){
 		aristas = new Tupla<Integer, Integer>(x, y);

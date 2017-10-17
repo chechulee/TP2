@@ -2,84 +2,142 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
-public class Grafo {
+public class Grafo 
+{
+	//Implementación de Grafo mediante lista de vecinos 
+	private int _vertices;
+	private ArrayList <Set<Integer>> _vecinos;
 	
-		// Representamos el grafo por listas de vecinos
-		private ArrayList< HashSet<Integer> > _vecinos;
+	public Grafo(int n)
+	{
+		if (n<0)
+			throw new IllegalArgumentException("Cantindad de vertices negativo " + n);
 		
-		// El número de vértices queda fijado en el constructor
-		public Grafo(int cantidadDeVertices)
-		{
-			_vecinos = new ArrayList< HashSet<Integer> >(cantidadDeVertices);
-			
-			for(int i=0; i<cantidadDeVertices; ++i)
-				_vecinos.add(new HashSet<Integer>());
-		}
-		
-		// Se agrega una arista en O(1)
-		public void agregarArista(int i, int j)
-		{
-			verificarVertice(i, "agregar una arista");
-			verificarVertice(j, "agregar una arista");
-			verificarDistintos(i, j, "agregar una arista");
-			
-			_vecinos.get(i).add(j);
-			_vecinos.get(j).add(i);
-		}
+		_vertices = n;
+		_vecinos = new ArrayList<Set<Integer>>();
+		inicializarVecinos();
+	}
 
-		// Informa si existe una arista, en O(1)
-		public boolean existeArista(int i, int j)
+	private void inicializarVecinos() {
+		for (int i = 0; i < vertices() ;i++)
 		{
-			verificarVertice(i, "consultar una arista");
-			verificarVertice(j, "consultar una arista");
-
-			return _vecinos.get(i).contains(j);
-		}
-
-		// Eliminación de una arista, en O(1)
-		public void eliminarArista(int i, int j)
-		{
-			verificarVertice(i, "eliminar una arista");
-			verificarVertice(j, "eliminar una arista");
-
-			_vecinos.get(i).remove(j);
-			_vecinos.get(j).remove(i);
-		}
-		
-		// Grado de un vértice (cantidad de vecinos), en O(1)
-		public int grado(int i)
-		{
-			return vecinos(i).size();
-		}
-		
-		// Conjunto de vecinos de un vértice, en O(1)
-		@SuppressWarnings("unchecked")
-		public Set<Integer> vecinos(int i)
-		{
-			verificarVertice(i, "consultar los vecinos");
-			return (Set<Integer>) _vecinos.get(i).clone();
-		}
-			
-		// Lanza una excepción si el índice v está fuera de rango para los vértices
-		private void verificarVertice(int v, String accion)
-		{
-			if( v<0 || v>=vertices() )
-				throw new IllegalArgumentException("Se intentó " + accion + " con un índice inexistente! vertice = " + v);
-		}
-
-		// Lanza una excepción si los índices son iguales
-		private void verificarDistintos(int i, int j, String accion)
-		{
-			if( i == j )
-				throw new IllegalArgumentException("Se intentó " + accion + " con los dos vértices iguales! vertice = " + i);
-		}
-		
-		// Cantidad de vértices
-		public int vertices()
-		{
-			return _vecinos.size();
+			_vecinos.add(new HashSet<Integer>());			
 		}
 	}
+	
+	public void setArista(int i, int j)
+	{
+		chequeoExtremo(i);	
+		chequeoExtremo(j);
+		
+		chequeoMismoVertice(i, j);
+		_vecinos.get(i).add(j);
+		_vecinos.get(j).add(i);
+	}
+
+	public void deleteArista(int i, int j)
+	{
+		chequeoExtremo(i);	
+		chequeoExtremo(j);
+
+		chequeoMismoVertice(i, j);
+		_vecinos.get(i).remove(j);
+		_vecinos.get(j).remove(i);
+	}
+	
+	public boolean isArista(int i, int j)
+	{
+		chequeoExtremo(i);	
+		chequeoExtremo(j);
+
+		return _vecinos.get(i).contains(j);
+	}
+	
+	public int vertices()
+	{
+		return _vertices;
+	}
+	
+	public int grado(int v)
+	{
+		chequeoExtremo(v);	
+		return _vecinos.get(v).size();
+	}
+	
+	public Set<Integer> vecinos(int v)
+	{
+		chequeoExtremo(v);
+		return _vecinos.get(v);
+	}
+	
+	@Override
+	public String toString() {
+		return "Grafo [_vertices=" + _vertices + ", _vecinos=" + _vecinos + "]";
+	}
+
+	public boolean esConexo()
+	{
+		boolean[] marcados = BFS(0);
+		
+		return todosVisitados(marcados);
+	}
+
+	private boolean[] BFS(int inicio) 
+	{
+		boolean[] marcados = new boolean[vertices()];
+		Queue<Integer> l = new LinkedList<Integer>();
+		
+		l.offer(inicio);
+		
+		while (l.isEmpty() == false)
+		{
+			Integer vertice = l.poll();
+			marcados[vertice] = true;
+			
+			for (Integer v :vecinos(vertice))
+				if (marcados[v] == false && l.contains(v) == false)
+					l.offer(v);
+		}
+		return marcados;
+	}
+	
+	private boolean todosVisitados(boolean[] marcados) 
+	{
+		boolean ret = true;
+		
+		for (int i=0; i<vertices(); ++i)
+			ret = ret && marcados[i];
+		
+		return ret;
+	}
+
+	private void chequeoMismoVertice(int i, int j) 
+	{
+		if (i==j)
+			throw new IllegalArgumentException("No puedo poner el mismo vertice " + i);
+	}
+
+	private void chequeoExtremo(int i) 
+	{
+		if (i<0 || i>=vertices())
+			throw new IllegalArgumentException("Vertice invalido " + i);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

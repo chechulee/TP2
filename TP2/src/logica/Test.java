@@ -63,14 +63,30 @@ public class Test {
 		}
 		
 		Solver solver = new Solver(prueba.conexiones);
-		for(Integer i = 0; i <  prueba.conexiones.size() ; i++){
-	         for (Integer element : solver.grafo.vecinos(i)){
-	        	 coordenadas.add(solver.obtenerCoordenada(i));
-	         coordenadas.add(solver.obtenerCoordenada(element));
-	         }
-		}
-		dibujarArista(coordenadas);
-
+//		for(Integer i = 0; i <  prueba.conexiones.size() ; i++){
+//	         for (Integer element : solver.grafo.vecinos(i)){
+//	        	 coordenadas.add(solver.obtenerCoordenada(i));
+//	         coordenadas.add(solver.obtenerCoordenada(element));
+//	         }
+//		}
+//		dibujarArista(coordenadas);
+		
+AGM arbol  = solver.arbolGM;
+System.out.println("Cantidad de aristas : " + arbol.cantAristas);
+System.out.println("largo del array " + arbol.aristasConPesos.size());
+for (Integer i = 0 ; i < arbol.arbolGM.vertices(); i++){
+		for(Integer element :	arbol.arbolGM.vecinos(i)){
+			coordenadas.add(solver.obtenerCoordenada(i));
+			coordenadas.add(solver.obtenerCoordenada(element));
+		
+			System.out.println(solver.obtenerLocalidad(element));
+			dibujarArista(coordenadas);
+	}
+	
+}
+	
+	
+	
 	}
 	
 	public void agregarLocalidadMapa(Double latitud, Double longitud, String localidad){

@@ -8,20 +8,18 @@ public class Solver {
 	public ArrayList<DatosLocalidad> conexiones;
 	public ArrayList<PesoArista>  aristasConPesos;
 	Grafo grafo;
-	AGM arbolGM;
+	public AGM arbolGM;
 	int cantAristas;
 	
 	public Solver(ArrayList c){
 		this.conexiones = c;
-		grafo = new Grafo(c.size());
+		int cantVertices = c.size();
+		grafo = new Grafo(cantVertices);
 		aristasConPesos = new ArrayList();
 		generarTodasLasAristasYpesosDelGrafo();
-		aristasConPesos.sort(null);
-		arbolGM = new AGM(aristasConPesos);
-		// para mostrar que ordena los pesos
-		for(int i = 0; i < aristasConPesos.size(); i++){;
-		System.out.println(aristasConPesos.get(i).peso);
-		}
+	  aristasConPesos.sort(null);
+		arbolGM = new AGM(aristasConPesos, cantVertices);
+
 	}
 	
 
@@ -31,7 +29,7 @@ public class Solver {
 		for (int i = 0; i < conexiones.size(); i++){
 			for(int j = i+1; j < conexiones.size(); j++){
 				if(j!=i) {
-					grafo.agregarArista(i,j);
+					grafo.setArista(i,j);
 					//pesoArista = new PesoArista(i,j,(calcularDistancia(i,j)));
 					peso = calcularPeso(i,j);
 					//System.out.println(obtenerLocalidad(i)+"  " + obtenerLocalidad(j) + "  " + "$ " + peso);
