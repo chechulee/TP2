@@ -37,14 +37,14 @@ public class AGM {
 			vertice1 = aristasConPesos.get(0).aristas.a;
 			vertice2 = aristasConPesos.get(0).aristas.b;
 			
-			if(!arbolGM.isArista(vertice1, vertice2)){
-				arbolGM.setArista(vertice1,vertice2);
+			if(!arbolGM.existeArista(vertice1, vertice2)){
+				arbolGM.existeArista(vertice1,vertice2);
 				 cantAristas ++;
-			     System.out.println("cantAristas" + vertice1 +" - "+ vertice2);
+			     //System.out.println("cantAristas" + vertice1 +" - "+ vertice2);
 			  }
 			
 				if (grafoTieneCiclo()){
-					arbolGM.deleteArista(vertice1,vertice2);
+					arbolGM.eliminarArista(vertice1,vertice2);
 					cantAristas--;
 					aristasConPesos.remove(0);
 				}else

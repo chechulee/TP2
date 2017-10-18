@@ -136,13 +136,13 @@ public class Grafo
 		L.add(inicial);
 		
 		// Visitados
-		marcados = new boolean[_grafo.vertices()];
+		marcados = new boolean[vertices()];
 	}
 
 	// Agregar a L los vecinos no marcados de i
 	private void agregarVecinosPendientes(int i)
 	{
-		for(Integer v: _grafo.vecinos(i))
+		for(Integer v: vecinos(i))
 		{
 			if( !marcados[v] && !L.contains(v) )
 				L.add(v);

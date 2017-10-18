@@ -29,7 +29,7 @@ public class Solver {
 		for (int i = 0; i < conexiones.size(); i++){
 			for(int j = i+1; j < conexiones.size(); j++){
 				if(j!=i) {
-					grafo.setArista(i,j);
+					grafo.agregarArista(i,j);
 					//pesoArista = new PesoArista(i,j,(calcularDistancia(i,j)));
 					peso = calcularPeso(i,j);
 					//System.out.println(obtenerLocalidad(i)+"  " + obtenerLocalidad(j) + "  " + "$ " + peso);
