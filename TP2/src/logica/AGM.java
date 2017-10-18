@@ -16,6 +16,7 @@ public class AGM {
 	Grafo arbolGM;
 	int cantAristas;
 	int cantVertices;
+	int ciclos;
 	ArrayList<Integer>  visitados;
 
 	
@@ -54,10 +55,9 @@ public class AGM {
 	
 }
 	private boolean grafoTieneCiclo() {
-	return grafoTieneCiclo(0);
-  }
-	private boolean grafoTieneCiclo(Integer v) {
-		
-		return false;
-	  }
+	   if(this.ciclos > 0)
+		   return true;
+	   else
+		   return false;
+	}
 }
